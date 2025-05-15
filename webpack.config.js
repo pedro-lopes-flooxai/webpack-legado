@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
     entry: './ex/index.js',
@@ -16,12 +17,15 @@ module.exports = {
             loader: 'babel-loader',
             exclude: /node_modules/,
             query: {
-                presets: [['es2015', { modules: 'commonjs' } ]],
+                presets: ['react', ['es2015', { modules: 'commonjs' }]],
                 plugins: ['transform-object-rest-spread']
-               
             }
-
+        }, {
+            test: /\.css$/,
+            loader: ExtractTextPlugin.extract("style-loader", "css-loader")
         }]
-    }
-
+    },
+    plugins: [
+        new ExtractTextPlugin('app.css') 
+    ]
 }
